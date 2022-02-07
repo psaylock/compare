@@ -20,4 +20,13 @@
 ```
 
 ## Result xxx.tsv
+```
+status	url	msg
+error	/sites/MLM/listing_prices/gold_special?price=78&category_id=MLM1714	invalid length
+```
 
+## Result codes (todo)
+- error
+- invalid length 
+- Anagram!
+- Different!
