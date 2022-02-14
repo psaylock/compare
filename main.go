@@ -158,6 +158,12 @@ func workers(result chan<- string, urls <-chan string, scopes []string, headers 
 				result <- fmt.Sprintf("%s\t%s\t%s", StatusError, url, response[i+1].Err.Error())
 				break
 			}
+			if response[i].Status != response[i+1].Status {
+				compareOK = false
+				errMsg := fmt.Sprintf("StatusCodes %d!=%d", response[i].Status, response[i+1].Status)
+				result <- fmt.Sprintf("%s\t%s\t%s", StatusError, url, errMsg)
+				break
+			}
 			if len(response[i].Response) != len(response[i+1].Response) {
 				compareOK = false
 				result <- fmt.Sprintf("%s\t%s\t%s", StatusError, url, "invalid length")

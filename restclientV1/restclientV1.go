@@ -1,7 +1,6 @@
 package restclientV1
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -9,6 +8,7 @@ import (
 )
 
 type RequestResult struct {
+	Status   int
 	Response []byte
 	Err      error
 }
@@ -32,10 +32,11 @@ func GetData(resp *RequestResult, scope string, url string, headers map[string]s
 		log.Printf("%s\n", resp.Err.Error())
 		return
 	}
-	if response.StatusCode != http.StatusOK {
-		resp.Err = fmt.Errorf("NOT 200 - StatusCode %d", response.StatusCode)
-		return
-	}
+	resp.Status = response.StatusCode
+	//if response.StatusCode != http.StatusOK {
+	//resp.Err = fmt.Errorf("NOT 200 - StatusCode %d", response.StatusCode)
+	//return
+	//}
 	resp.Response, resp.Err = ioutil.ReadAll(response.Body)
 	if response.Body != nil {
 		if errBody := response.Body.Close(); errBody != nil {
@@ -43,4 +44,3 @@ func GetData(resp *RequestResult, scope string, url string, headers map[string]s
 		}
 	}
 }
-
